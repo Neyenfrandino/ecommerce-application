@@ -1,40 +1,29 @@
-import './categories.style.scss'
-import CategoriesContainer from './components/categories-container/categories-container.components'
+// import './categories.style.scss'
+import { Routes, Route, Outlet } from 'react-router-dom'
+import Navigation from './routers/navigation/navigation.component'
+import Home from './routers/home/home.component'
+import SingIn from './routers/sing-in/sing-in.component' 
 
-const App = () => {
-  const categories = [
-    {
-      "id": 1,
-      "title": "hats",
-      "imageUrl": "https://i.ibb.co/cvpntL1/hats.png"
-    },
-    {
-      "id": 2,
-      "title": "jackets",
-      "imageUrl": "https://i.ibb.co/px2tCc3/jackets.png"
-    },
-    {
-      "id": 3,
-      "title": "sneakers",
-      "imageUrl": "https://i.ibb.co/0jqHpnp/sneakers.png"
-    },
-    {
-      "id": 4,
-      "title": "womens",
-      "imageUrl": "https://i.ibb.co/GCCdy8t/womens.png"
-    },
-    {
-      "id": 5,
-      "title": "mens",
-      "imageUrl": "https://i.ibb.co/R70vBrQ/men.png"
-    }
-  ]
-  
 
-  return (
-    <CategoriesContainer categories={categories}/>
-
-  );
+const MenuPrincipal = () => {
+  return(
+    <h1 style={{ textAlign: 'center' }}>Hola mundo </h1>
+  )
 }
 
-export default App;
+const App = () =>{
+  return(
+    <Routes>
+      <Route path='/' element={ <Navigation /> }>
+
+        <Route index={'true'} element={ <Home /> } /> 
+        <Route path='holaMundoi' element={ <MenuPrincipal /> } /> 
+        <Route path='sing-in' element={ <SingIn /> } /> 
+
+      </Route>
+    </Routes>
+   
+  )
+}
+
+export default App

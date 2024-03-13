@@ -1,9 +1,11 @@
-import { signInWithPopupp, CreteUserDocumentFromAuth } from '../../utils/firebase/firebase.utils'
+import { signInWithGooglePopup, CreateUserDocumentFromAuth, signInWithEmail } from '../../utils/firebase/firebase.utils'
+import SingUpForm from '../../components/sing-up-form/sing-up-form.component'
+
 const SingIn = () => {
     const logGoogleUser = async () => {
-        const { user } = await signInWithPopupp()
+        const { user } = await signInWithGooglePopup()
         console.log(user.uid)
-        const userDocRef = await CreteUserDocumentFromAuth(user)
+        const userDocRef = await CreateUserDocumentFromAuth(user)
     }
     
     return(
@@ -12,6 +14,8 @@ const SingIn = () => {
             <button onClick={logGoogleUser}>
                 login whit google
             </button>
+
+            <SingUpForm />
 
         </div>
     )

@@ -35,7 +35,9 @@ export const signInWithGooglePopup = () => signInWithPopup(auth, provider)
 
 export const db = getFirestore(firebaseApp)
 
-export const CreateUserDocumentFromAuth = async (userAuth) => {
+export const CreateUserDocumentFromAuth = async (userAuth, additionalInformation = {}) => {
+  if(!userAuth)return
+
   const userDocRef = doc(db, 'user', userAuth.uid)
   
   console.log(userDocRef)
@@ -52,7 +54,8 @@ export const CreateUserDocumentFromAuth = async (userAuth) => {
       await setDoc(userDocRef, {
         displayName,
         email,
-        createAt
+        createAt,
+        ...additionalInformation
       })
     }catch(error){
       console.log('Error creating the user', error.message)
@@ -62,9 +65,11 @@ export const CreateUserDocumentFromAuth = async (userAuth) => {
 
   }
 }
+
+
 export const createAuthWithEmailAndPassword = async (email, password) => {
   try {
-    
+    if(!email || !password)return
     // Crea un nuevo usuario con correo electrónico y contraseña
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     console.log('Usuario creado exitosamente:', userCredential.user.uid);
@@ -74,5 +79,21 @@ export const createAuthWithEmailAndPassword = async (email, password) => {
     // Captura cualquier error que ocurra durante la creación del usuario
     console.error('Error al crear usuario:', error.message);
     throw error;
+  }
+}
+
+
+export const SignInAuthWithEmailAndPassword = async (email, password) =>{
+
+  try{
+    if(!email || !password) return
+    const initalSession = await signInWithEmailAndPassword(auth, email, password)
+
+    console.log('Successful session initialization', initalSession)
+    return initalSession
+
+  }catch(error){
+    console.error('Initial session error', error.message)
+    throw error
   }
 }

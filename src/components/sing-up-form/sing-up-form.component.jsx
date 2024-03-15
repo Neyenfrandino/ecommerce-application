@@ -1,22 +1,37 @@
 import { useState } from "react"
-import { createAuthWithEmailAndPassword, CreateUserDocumentFromAuth } from '../../utils/firebase/firebase.utils'
+import { createAuthWithEmailAndPassword, 
+        CreateUserDocumentFromAuth, 
+        SignInAuthWithEmailAndPassword } 
+from '../../utils/firebase/firebase.utils'
+
+import FormInput from "../form-input/form-input.component"
+import Button from "../button/button.component"
+import './sing-up-form.style.scss'
+
 
 const defaultFormFields = {
     displayName : '',
     email: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    emailSingIn: '',
+    passwordSingIn: ''
 }
 
 const SingUpForm = () =>{
 
     const [formFields, setFormFields] = useState( defaultFormFields )
-    const { displayName, email, password, confirmPassword } = formFields
-    // console.log(formFields)
+    const { displayName, 
+            email, 
+            password, 
+            confirmPassword, 
+            emailSingIn, 
+            passwordSingIn } = formFields
 
     const resetFormfields = () => {
         setFormFields(defaultFormFields)
     }
+
 
     const handleChange = (event) => {
         const {name, value} = event.target
@@ -42,15 +57,33 @@ const SingUpForm = () =>{
         
     };
 
+    const hendleSubmitWithEmailAndPassword = async (event)=> {
+        event.preventDefault();
+        try{
+            const response = await SignInAuthWithEmailAndPassword(email, password)
+            console.log(response)
+            return response
+
+        }catch(error){
+            if (error.code == 'auth/invalid-credential'){
+                alert("He user don't exists")
+              }
+        }
+    }
+
     return(
-        <div>
-            <h1>
+        <div className = "sing-up-container">
+            <h2>
+                Don't have an account? 
+            </h2>
+
+            <span>
                 Sing up whit your email and password 
-            </h1>
-            
+            </span>
+        
             <form onSubmit={ handleSubmit }>
-                <label>Display Name</label>
-                <input 
+                <FormInput 
+                    label= 'Display Name'
                     type="text" 
                     required 
                     onChange={handleChange} 
@@ -58,8 +91,8 @@ const SingUpForm = () =>{
                     value={displayName}
                 />
 
-                <label>Email</label>
-                <input 
+                <FormInput 
+                    label= 'Email'
                     type="email" 
                     required 
                     onChange={handleChange} 
@@ -67,8 +100,8 @@ const SingUpForm = () =>{
                     value={email}
                 />
 
-                <label>Password</label>
-                <input 
+                <FormInput 
+                    label= 'Password'
                     type="password" 
                     required 
                     onChange={handleChange} 
@@ -76,8 +109,8 @@ const SingUpForm = () =>{
                     value={password}
                 />
 
-                <label>Confirm Password</label>
-                <input 
+                <FormInput 
+                    label= 'Confirm password'
                     type="password" 
                     required 
                     onChange={handleChange} 
@@ -85,11 +118,9 @@ const SingUpForm = () =>{
                     value={confirmPassword}
                 />
 
-                <button type="submit">Sing up</button>
+                <Button type="submit">Sing up</Button>
             </form>
-          
         </div>
-
     )
 }
 

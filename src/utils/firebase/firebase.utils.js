@@ -6,7 +6,8 @@ import {
   signInWithPopup, 
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword } 
+  signInWithEmailAndPassword,
+  signOut } 
 from 'firebase/auth'
 
 import { getFirestore, doc, getDoc, setDoc, Firestore } from 'firebase/firestore'
@@ -43,8 +44,8 @@ export const CreateUserDocumentFromAuth = async (userAuth, additionalInformation
   console.log(userDocRef)
 
   const userSnapShot = await getDoc(userDocRef);
-  console.log(userSnapShot.exists());
-  console.log(userSnapShot);
+  // console.log(userSnapShot.exists());
+  // console.log(userSnapShot);
 
   if(!userSnapShot.exists()){
     const {displayName, email} = userAuth
@@ -72,7 +73,7 @@ export const createAuthWithEmailAndPassword = async (email, password) => {
     if(!email || !password)return
     // Crea un nuevo usuario con correo electrónico y contraseña
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    console.log('Usuario creado exitosamente:', userCredential.user.uid);
+    // console.log('Usuario creado exitosamente:', userCredential.user.uid);
     return userCredential;
 
   } catch (error) {
@@ -89,7 +90,7 @@ export const SignInAuthWithEmailAndPassword = async (email, password) =>{
     if(!email || !password) return
     const initalSession = await signInWithEmailAndPassword(auth, email, password)
 
-    console.log('Successful session initialization', initalSession)
+    // console.log('Successful session initialization', initalSession)
     return initalSession
 
   }catch(error){
@@ -97,3 +98,5 @@ export const SignInAuthWithEmailAndPassword = async (email, password) =>{
     throw error
   }
 }
+
+export const SingOutUser = async () => await signOut(auth) 

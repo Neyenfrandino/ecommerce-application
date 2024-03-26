@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useContext, useEffect } from "react"
 import { createAuthWithEmailAndPassword, 
         CreateUserDocumentFromAuth, 
         SignInAuthWithEmailAndPassword } 
@@ -6,6 +6,7 @@ from '../../utils/firebase/firebase.utils'
 
 import FormInput from "../form-input/form-input.component"
 import Button from "../button/button.component"
+import { UserContext } from "../../contexts/user.context"
 import './sing-up-form.style.scss'
 
 
@@ -24,10 +25,14 @@ const SingUpForm = () =>{
     const { displayName, 
             email, 
             password, 
-            confirmPassword, 
-            emailSingIn, 
-            passwordSingIn } = formFields
+            confirmPassword,               
+          } = formFields
 
+
+    const { setCurrentUser } = useContext(UserContext);
+  
+    
+            
     const resetFormfields = () => {
         setFormFields(defaultFormFields)
     }
@@ -46,7 +51,8 @@ const SingUpForm = () =>{
         }
         try{
             const { user } = await createAuthWithEmailAndPassword(email, password);
-            const userDocRef = await CreateUserDocumentFromAuth(user, { displayName })
+            await CreateUserDocumentFromAuth(user, { displayName })
+            setCurrentUser( user )
 
             resetFormfields()
         }catch(error){
@@ -57,19 +63,18 @@ const SingUpForm = () =>{
         
     };
 
-    const hendleSubmitWithEmailAndPassword = async (event)=> {
-        event.preventDefault();
-        try{
-            const response = await SignInAuthWithEmailAndPassword(email, password)
-            console.log(response)
-            return response
+    // const hendleSubmitWithEmailAndPassword = async (event)=> {
+    //     event.preventDefault();
+    //     try{
+    //         const { user } = await SignInAuthWithEmailAndPassword(email, password)
+    //         console.log( user )
 
-        }catch(error){
-            if (error.code == 'auth/invalid-credential'){
-                alert("He user don't exists")
-              }
-        }
-    }
+    //     }catch(error){
+    //         if (error.code == 'auth/invalid-credential'){
+    //             alert("He user don't exists")
+    //           }
+    //     }
+    // }
 
     return(
         <div className = "sing-up-container">

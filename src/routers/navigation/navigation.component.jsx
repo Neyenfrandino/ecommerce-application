@@ -1,16 +1,22 @@
 import { Outlet, Link } from 'react-router-dom'
-
 import { Fragment, useContext } from 'react'
-import { ReactComponent as CrwonLogo} from '../../assests/crown.svg'
 
+
+import { ReactComponent as CrwonLogo} from '../../assests/crown.svg'  
 import { UserContext } from '../../contexts/user.context'
+
+import { SingOutUser } from '../../utils/firebase/firebase.utils'
 import './navigation.style.scss'
 
 const Navigation = () => {
-  const { currentUser } = useContext(UserContext)
-  console.log( currentUser , 'jajaja')
 
-
+  const { currentUser, setCurrentUser } = useContext(UserContext)
+  
+  const singOutHendle = async () => {
+    await SingOutUser()
+    setCurrentUser(null)
+  }
+  
   return(
     <Fragment>
       <div className='navigation'>
@@ -25,14 +31,16 @@ const Navigation = () => {
                 SHOP
             </Link>
 
-            <Link className='nav-link' to='/auth'>
-                SING-IN
-            </Link>
+            { currentUser ? (
+              <span className='nav-link' onClick={ singOutHendle } > SING OUT</span>
+            ) : (
+              <Link className='nav-link' to='/auth'>
+              SING-IN
+              </Link>
+            )} 
 
-        </div>
-        
+        </div>        
       </div>
-
       <Outlet />
     </Fragment>
   )

@@ -1,32 +1,16 @@
 import { useContext } from 'react';
 import Button from '../button/button.component'
+import { CartContext } from '../../contexts/cart.context';
+
 import './products-card.style.scss'
-
-import { InfoProductAddCart } from '../../contexts/info-product-add-cart.context';
-
 
 const ProductCard = ( { product } ) => {
     const { name, price, imageUrl, id } = product;
-    const {AddProduct ,setAddProduct } = useContext(InfoProductAddCart);
+    const { AddItemToCart } = useContext(CartContext);
 
-    const handleOnClick = (event, name, id) => {
-
-        event.preventDefault();
-
-        const infoProductOnclick = [...AddProduct, {
-            name: name,
-            id: id,
-            price: price,
-            imageUrl: imageUrl,
-            count : ''
-        }];
-        
-
-        setAddProduct(infoProductOnclick)
-        
- 
+    const handleAddToCart = () => {
+        AddItemToCart(product);
     }
-    
     return(
         <div className='product-card-container'>
             <img src= { imageUrl } alt= { `${name}` } />
@@ -38,9 +22,8 @@ const ProductCard = ( { product } ) => {
                     {price}
                 </span>
             </div>
-            <Button buttonType='inverted' onClick={ (event) => {
-                    handleOnClick(event, name, id)
-                }}>
+          
+            <Button buttonType='inverted' onClick={ handleAddToCart }>
                 Add to Cart
             </Button>
         </div>

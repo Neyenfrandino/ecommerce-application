@@ -5,8 +5,8 @@ import { CreateUserDocumentFromAuth,
 from '../../utils/firebase/firebase.utils'
 
 import FormInput from "../form-input/form-input.component"
-import Button from "../button/button.component"
-import { UserContext } from "../../contexts/user.context"
+import Button, {BUTTON_TYPE_CLASSES} from "../button/button.component"
+
 
 import './sing-in-form.style.scss'
 
@@ -78,7 +78,7 @@ const SingInForm = () =>{
                 
                 <div className="buttons-container">
                     <Button type= 'submit'>Sing-In</Button>
-                    <Button type= 'button' onClick={ singInWithGoogle } buttonType='google'>Sing In with Google</Button>
+                    <Button type= 'button' onClick={ singInWithGoogle } buttonType={BUTTON_TYPE_CLASSES.google}>Sing In with Google</Button>
     
                 </div>
                 

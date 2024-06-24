@@ -9,7 +9,7 @@ import { SingOutUser } from '../../utils/firebase/firebase.utils'
 import CartIcon from '../../components/cart-icon/cart-icon.component'
 import CartDopdown from '../../components/cart-dopdown/cart-dopdown.component'
 
-import { NavigateContainer, LogoContainer, NavLinksContainer, NavLink } from './navigation.style'
+import { NavigateContainer, LogoContainer, NavLinksContainer, NavLink, Placeholder, Wrapper } from './navigation.style'
 
 
 const Navigation = () => {
@@ -17,35 +17,37 @@ const Navigation = () => {
   const { currentUser } = useContext(UserContext)
   const { isCartOpen } = useContext(CartContext)
   
-  return(
+  return (
     <Fragment>
-      <NavigateContainer>
+      <Wrapper>
+        <NavigateContainer>
+          <LogoContainer to='/'>
+            <CrwonLogo className='logo' />
+          </LogoContainer>
 
-        <LogoContainer to='/'>
-            <CrwonLogo className='logo'/> 
-        </LogoContainer>
-        
-        <NavLinksContainer>
-            
+          <NavLinksContainer>
             <NavLink to='/shop'>
-                SHOP
+              SHOP
             </NavLink>
 
-            { currentUser ? (
-              <NavLink as='span' onClick={ SingOutUser } > SING OUT</NavLink>
+            {currentUser ? (
+              <NavLink as='span' onClick={SingOutUser}>SIGN OUT</NavLink>
             ) : (
               <NavLink to='/auth'>
-              SING-IN
+                SIGN-IN
               </NavLink>
-            )} 
-            <CartIcon/>
-        </NavLinksContainer>    
+            )}
+            <CartIcon />
+          </NavLinksContainer>
 
-        {isCartOpen && <CartDopdown /> }   
-      </NavigateContainer>
+          {isCartOpen && <CartDopdown />}
+        </NavigateContainer>
+        <Placeholder />
+      </Wrapper>
       <Outlet />
     </Fragment>
-  )
-}
+  );
+};
+
 
 export default Navigation

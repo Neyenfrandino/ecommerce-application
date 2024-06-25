@@ -1,7 +1,7 @@
-import { useState, useContext, useEffect } from "react"
+import { useState, useContext } from "react"
 import { createAuthWithEmailAndPassword, 
         CreateUserDocumentFromAuth, 
-        SignInAuthWithEmailAndPassword } 
+     } 
 from '../../utils/firebase/firebase.utils'
 
 import FormInput from "../form-input/form-input.component"

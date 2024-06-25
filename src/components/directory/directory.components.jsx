@@ -1,4 +1,4 @@
-import { Route } from 'react-router-dom'
+// import { Route } from 'react-router-dom'
 import DirectoryItem from '../directory-item/directory-item.components'
 import './directory.style.scss'
 

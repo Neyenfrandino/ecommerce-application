@@ -56,7 +56,7 @@ const SingUpForm = () =>{
 
             resetFormfields()
         }catch(error){
-            if (error.code == 'auth/email-already-in-use'){
+            if (error.code === 'auth/email-already-in-use'){
                 alert("He user alredy in use")
               }
         }

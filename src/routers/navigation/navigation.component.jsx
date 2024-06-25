@@ -1,4 +1,4 @@
-import { Outlet, Link } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 import { Fragment, useContext } from 'react'
 
 import { ReactComponent as CrwonLogo} from '../../assests/crown.svg'  
